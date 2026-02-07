@@ -14,6 +14,12 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Task Management API is running');
 });
 
+import authRoutes from './routes/auth';
+import taskRoutes from './routes/tasks';
+
+app.use('/auth', authRoutes);
+app.use('/tasks', taskRoutes);
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
