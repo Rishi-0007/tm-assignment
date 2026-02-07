@@ -18,7 +18,7 @@ A full-stack task management application built with Express, TypeScript, Prisma,
 1.  **Clone the repository**:
     ```bash
     git clone <repository-url>
-    cd assignment
+    cd tm-assignment
     ```
 
 2.  **Backend Setup**:
