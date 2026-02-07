@@ -51,7 +51,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const { accessToken, refreshToken } = generateTokens(user.id);
+    const { accessToken, refreshToken } = generateTokens(user.id, user.email, user.name);
 
     // Save refresh token to DB
     await prisma.user.update({
@@ -59,7 +59,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       data: { refreshToken },
     });
 
-    res.json({ accessToken, refreshToken, user: { id: user.id, email: user.email } });
+    res.json({ accessToken, refreshToken, user: { id: user.id, email: user.email, name: user.name } });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -90,7 +90,7 @@ export const refreshToken = async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    const tokens = generateTokens(user.id);
+    const tokens = generateTokens(user.id, user.email, user.name);
 
     // Update refresh token
     await prisma.user.update({

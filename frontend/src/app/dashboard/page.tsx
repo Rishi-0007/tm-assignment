@@ -38,8 +38,7 @@ export default function DashboardPage() {
       });
       setTasks(res.data.tasks);
       setTotalPages(res.data.pagination.totalPages);
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error("Failed to load tasks");
     } finally {
       setLoading(false);
@@ -55,9 +54,8 @@ export default function DashboardPage() {
       await api.post("/tasks", data);
       toast.success("Task created");
       fetchTasks();
-    } catch (error) {
+    } catch {
         toast.error("Failed to create task");
-      throw error;
     }
   };
 
@@ -67,9 +65,8 @@ export default function DashboardPage() {
       await api.patch(`/tasks/${editingTask.id}`, data);
       toast.success("Task updated");
       fetchTasks();
-    } catch (error) {
+    } catch {
         toast.error("Failed to update task");
-      throw error;
     }
   };
 
@@ -90,7 +87,7 @@ export default function DashboardPage() {
       await api.delete(`/tasks/${id}`);
       toast.success("Task deleted");
       fetchTasks();
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete task");
     }
   };
@@ -106,7 +103,7 @@ export default function DashboardPage() {
           </h1>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-500 hidden sm:inline-block">
-              {user?.email}
+              Hello, {user?.name || user?.email}
             </span>
             <button
               onClick={logout}

@@ -17,8 +17,13 @@ export default function RegisterPage() {
       await api.post("/auth/register", { email, password });
       toast.success("Registration successful! Please login.");
       router.push("/login");
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "Registration failed");
+    } catch (error: unknown) {
+      if (typeof error === "object" && error !== null && "response" in error) {
+          const err = error as { response: { data: { error: string } } };
+          toast.error(err.response?.data?.error || "Registration failed");
+      } else {
+          toast.error("Registration failed");
+      }
     }
   };
 

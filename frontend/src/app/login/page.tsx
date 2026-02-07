@@ -8,8 +8,8 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("demo@example.com");
+  const [password, setPassword] = useState("password123");
   const { login } = useAuth();
   const router = useRouter();
 
@@ -21,8 +21,13 @@ export default function LoginPage() {
       login(accessToken, refreshToken);
       toast.success("Logged in successfully!");
       router.push("/dashboard");
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "Login failed");
+    } catch (error: unknown) {
+      if (typeof error === "object" && error !== null && "response" in error) {
+          const err = error as { response: { data: { error: string } } };
+          toast.error(err.response?.data?.error || "Login failed");
+      } else {
+          toast.error("Login failed");
+      }
     }
   };
 
@@ -59,7 +64,7 @@ export default function LoginPage() {
           </button>
         </form>
         <p className="text-sm text-center text-gray-600">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500">
             Sign up
           </Link>
